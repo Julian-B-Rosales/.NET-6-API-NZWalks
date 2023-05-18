@@ -26,7 +26,7 @@ namespace NZWalks.API.Repositories
 
         public async Task<Walk> DeleteAsync(Guid id)
         {
-            var walk = await nZWalksDbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
+            var walk = await nZWalksDbContext.Walks.FindAsync(id);
             if (walk == null)
             {
                 return null;
