@@ -81,12 +81,14 @@ namespace NZWalks.API.Controllers
                 return NotFound();
             }
 
-            var walkDTO = new Models.DTO.Walk() { 
-                Name = walk.Name,
-                Length = walk.Length,
-                RegionId = walk.RegionId,
-                WalkDifficultyId = walk.WalkDifficultyId,
-            };
+            //var walkDTO = new Models.DTO.Walk() { 
+            //    Name = walk.Name,
+            //    Length = walk.Length,
+            //    RegionId = walk.RegionId,
+            //    WalkDifficultyId = walk.WalkDifficultyId,
+            //};
+
+            var walkDTO = mapper.Map<Models.DTO.Walk>(walk);
 
             return Ok(walkDTO);
         }
