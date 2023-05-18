@@ -93,11 +93,10 @@ namespace NZWalks.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] UpdateWalkRequest updateWalkRequest)
+        public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateWalkRequest updateWalkRequest)
         {
             var walk = new Models.Domain.Walk()
             {
-                Id = id,
                 Name = updateWalkRequest.Name,
                 Length = updateWalkRequest.Length,
                 RegionId = updateWalkRequest.RegionId,
