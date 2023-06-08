@@ -42,6 +42,12 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] Models.DTO.AddWalkDifficultyRequest walkDiffRequest)
         {
+
+            if (!ValidateAddAsync(walkDiffRequest))
+            {
+                return BadRequest(ModelState);
+            }
+
             var walkDiff = new Models.Domain.WalkDifficulty() 
             {
                 Code = walkDiffRequest.Code
@@ -78,6 +84,11 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateWalkDifficultyRequest updateWalkDiffReq)
         {
+
+            if (!ValidateUpdateWalkDifficultyAsync(updateWalkDiffReq))
+            {
+                return BadRequest(ModelState);
+            }
             var walkDiff = new Models.Domain.WalkDifficulty()
             {
                 Code = updateWalkDiffReq.Code,
@@ -98,5 +109,48 @@ namespace NZWalks.API.Controllers
 
             return Ok(walkDiffDTO);
         }
+
+        #region Private Methods
+
+        private bool ValidateAddAsync(Models.DTO.AddWalkDifficultyRequest walkDiffRequest)
+        {
+            if (walkDiffRequest == null)
+            {
+                ModelState.AddModelError(nameof(walkDiffRequest), 
+                    $"{nameof(walkDiffRequest)} cannot be empty.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(walkDiffRequest.Code))
+            {
+                ModelState.AddModelError(nameof(walkDiffRequest.Code),
+                    $"{nameof(walkDiffRequest.Code)} cannot be null or empty or white space.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidateUpdateWalkDifficultyAsync(Models.DTO.UpdateWalkDifficultyRequest updateWalkDiffReq)
+        {
+
+            if (updateWalkDiffReq == null)
+            {
+                ModelState.AddModelError(nameof(updateWalkDiffReq),
+                    $"{nameof(updateWalkDiffReq)} cannot be empty.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(updateWalkDiffReq.Code))
+            {
+                ModelState.AddModelError(nameof(updateWalkDiffReq.Code),
+                    $"{nameof(updateWalkDiffReq.Code)} cannot be null or empty or white space.");
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }
